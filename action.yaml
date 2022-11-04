@@ -1,15 +1,12 @@
-name: "Login to docker"
-description: "Login to docker"
+name: "Login to Docker"
+description: "Login to Docker, both Docker Hub and AWS ECR"
 inputs:
    docker-hub-username:
-     required: true
      description: "docker-hub-username"
    docker-hub-password:
-     required: true
      description: "docker-hub-password"
    aws-assume-role:
-     required: true
-     description: "aws-assume-role"
+     description: "Role for to assume for AWS"
 outputs:
   ecr-registry:
     description: "ecr-registry"
