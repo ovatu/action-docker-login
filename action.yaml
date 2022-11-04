@@ -1,0 +1,35 @@
+name: "Login to docker"
+description: "Login to docker"
+inputs:
+   docker-hub-username:
+     required: true
+     description: "docker-hub-username"
+   docker-hub-password:
+     required: true
+     description: "docker-hub-password"
+   aws-assume-role:
+     required: true
+     description: "aws-assume-role"
+outputs:
+  ecr-registry:
+    description: "ecr-registry"
+    value: ${{ steps.login-ecr.outputs.registry }}
+runs:
+  using: "composite"
+  steps:
+  - name: Login to Docker Hub
+    uses: docker/login-action@v2
+    with:
+      username: ${{ inputs.docker-hub-username }}
+      password: ${{ inputs.docker-hub-password }}
+
+  - name: Configure AWS credentials
+    uses: aws-actions/configure-aws-credentials@v1
+    with:
+      role-to-assume:  ${{ inputs.aws-assume-role }}
+      aws-region: us-east-1
+
+  - name: Login to Amazon ECR
+    id: login-ecr
+    uses: aws-actions/amazon-ecr-login@v1
+
